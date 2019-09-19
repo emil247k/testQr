@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<style>
+    canvas {
+        display: none;
+    }
+    hr {
+        margin-top: 32px;
+    }
+    input[type="file"] {
+        display: block;
+        margin-bottom: 16px;
+    }
+    div {
+        margin-bottom: 16px;
+    }
+</style>
+<div>
+    <video muted playsinline id="qr-video"></video>
+</div>
+
+
+<span id="result"></span>
+
+<script type="module">
+    import QrScanner from "/qr-scanner-master/qr-scanner.min.js";
+    QrScanner.WORKER_PATH = '/qr-scanner-master/qr-scanner-worker.min.js';
+    const video = document.getElementById('qr-video');
+    const camHasCamera = document.getElementById('cam-has-camera');
+    const camQrResult = document.getElementById('result');
+ 
+    function setResult(label, result) {
+        label.textContent = result;
+    }
+
+    QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+    const scanner = new QrScanner(video, result => setResult(camQrResult, result));
+	
+    scanner.start();
+	scanner.setInversionMode('original');
+	
+</script>
+</body>
+</html>
